@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-} from "react";
+import React, { useCallback, useEffect, useReducer, useRef } from "react";
 
 interface Todo {
   id: number;
@@ -14,9 +9,9 @@ type ActionType =
   | { type: "REMOVE"; id: number };
 
 const getLocalData = () => {
-  const getData = JSON.parse(localStorage.getItem("data") || "");
+  const getData = localStorage.getItem("data");
   if (getData) {
-    return JSON.parse(localStorage.getItem("data") || "");
+    return JSON.parse(getData);
   } else {
     return [];
   }
