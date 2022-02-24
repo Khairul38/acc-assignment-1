@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useReducer,
   useRef,
-  useState,
 } from "react";
 
 interface Todo {
@@ -14,8 +13,17 @@ type ActionType =
   | { type: "ADD"; text: string }
   | { type: "REMOVE"; id: number };
 
+const getLocalData = () => {
+  const getData = JSON.parse(localStorage.getItem("data") || "");
+  console.log(getData);
+  if (getData) {
+    return JSON.parse(localStorage.getItem("data") || "");
+  } else {
+    return [];
+  }
+};
+
 function App() {
-  const [users, setUsers] = useState<Todo[]>([]);
   const [todos, dispatch] = useReducer((state: Todo[], action: ActionType) => {
     switch (action.type) {
       case "ADD":
@@ -29,7 +37,7 @@ function App() {
       case "REMOVE":
         return state.filter(({ id }) => id !== action.id);
     }
-  }, []);
+  }, getLocalData());
 
   const newTodoRef = useRef<HTMLInputElement>(null);
 
@@ -52,9 +60,6 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(todos));
-    const getData = JSON.parse(localStorage.getItem("data") || "");
-    console.log(getData);
-    setUsers(getData);
   }, [todos]);
 
   return (
@@ -73,15 +78,15 @@ function App() {
           Add
         </button>
         <div className="mt-10">
-          {users.map((user) => (
+          {todos.map((todo) => (
             <div
-              key={user.id}
+              key={todo.id}
               className="mt-5 p-2 rounded-lg shadow-md bg-white flex justify-between"
             >
-              <p className="text-lg font-semibold text-gray-500">{user.text}</p>
+              <p className="text-lg font-semibold text-gray-500">{todo.text}</p>
               <button
                 className="ml-3 px-3 py-1 bg-gray-400 hover:bg-gray-500 rounded-md uppercase font-semibold text-sm hover:text-gray-300"
-                onClick={() => onRemoveTodo(user.id)}
+                onClick={() => onRemoveTodo(todo.id)}
               >
                 Remove
               </button>
