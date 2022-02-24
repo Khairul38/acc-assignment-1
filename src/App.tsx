@@ -55,7 +55,7 @@ function App() {
     const getData = JSON.parse(localStorage.getItem("data") || "");
     console.log(getData);
     setUsers(getData);
-  }, []);
+  }, [todos]);
 
   return (
     <div className="bg-gray-200 h-screen flex justify-center">
