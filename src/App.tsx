@@ -15,7 +15,6 @@ type ActionType =
 
 const getLocalData = () => {
   const getData = JSON.parse(localStorage.getItem("data") || "");
-  console.log(getData);
   if (getData) {
     return JSON.parse(localStorage.getItem("data") || "");
   } else {
